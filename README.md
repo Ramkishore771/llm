@@ -71,3 +71,48 @@ cd frontend
 npm run build
 ```
 Build bundle outputs to `frontend/dist/`.
+
+---
+
+## 🐳 Docker Deployment
+
+Run the entire full-stack application (FastAPI backend + React Nginx frontend) with a single command:
+
+```bash
+docker-compose up --build -d
+```
+
+* **Frontend:** Accessible at `http://localhost` or `http://localhost:3000`
+* **Backend API:** Accessible at `http://localhost:8000/docs`
+* **Network:** Automatic reverse proxy bridges `/api/*` from frontend container to backend container.
+
+To stop the containers:
+```bash
+docker-compose down
+```
+
+---
+
+## 🔥 Firebase Deployment
+
+### 1. Firebase Hosting (Frontend)
+Build the production bundle and deploy to Firebase Hosting:
+```bash
+# 1. Build the production React frontend
+cd frontend
+npm run build
+cd ..
+
+# 2. Login to Firebase CLI
+npx firebase-tools login
+
+# 3. Deploy to Firebase Hosting & Firestore
+npx firebase-tools deploy
+```
+
+### 2. Firestore Security Rules
+The repository includes production `firestore.rules` that strictly isolate user data:
+```bash
+npx firebase-tools deploy --only firestore:rules
+```
+
